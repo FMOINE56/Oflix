@@ -61,4 +61,25 @@ class Movie
 
         return $this->movies;
     }
+
+    /**
+     * Methode qui retourne un film par son index de tableau
+     * 
+     * @return Array|null tableau du film
+     */
+    public function getMovieById(int $id) : ?array
+    {
+
+        // Je vérifie si le film existe, si c'est le cas, je le retourne, sinon je renvois null
+        // $this->movies fait appelle à la propriété privé ou les films sont stocké dans la classe MOVIE
+        if(isset($this->movies[$id])){
+
+            return $this->movies[$id];
+
+        }else{
+
+            return null;
+
+        }
+    }
 }
