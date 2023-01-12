@@ -8,7 +8,7 @@
             <div class="col">
 
                 <div
-                    class="row g-0 borderrr rrrounded overflow-hidden flex-md-row align-items-start mb-4 shadow-smmm position-relative">
+                    class="row g-0 border rounded overflow-hidden flex-md-row align-items-start mb-4 shadow-smmm position-relative">
                     <div class="col-4 movie__poster img-thumbnail">
                         <img src="{{movie.poster}}" class="img-fluid">
                         <!-- img src="https://m.media-amazon.com/images/M/MV5BNThmZGY4NzgtMTM4OC00NzNkLWEwNmEtMjdhMGY5YTc1NDE4XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg" class="img-fluid" -->
@@ -28,6 +28,7 @@
                         <p>{{movie.synopsis}}
                         </p>
                         <div class="d-flex mb-4" style="color: orange;">
+                        {# TODO Ici gérer l'affichage des étoiles par rapport à la note du film par exemple un film avec 3.5 aura 3 étoiles pleines : bi bi-star-fill, une étoile remplis à moitié :  bi bi-star-half et une étoile vide : bi bi-star#}
                             {# <i class="bi bi-star-fill"></i>
                             <i class="bi bi-star-fill"></i>
                             <i class="bi bi-star-fill"></i>

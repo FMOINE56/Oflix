@@ -7,6 +7,7 @@ class Movie
 
     private $movies = [
 
+        // 0
         [
             'type' => 'Film',
             'title' => 'A Bug\'s Life',
@@ -18,6 +19,7 @@ class Movie
             'rating' => 3.8
         ],
 
+        // 1
         [
             'type' => 'Série',
             'title' => 'Game of Thrones',
@@ -29,6 +31,7 @@ class Movie
             'rating' => 4.7
         ],
 
+        // 2
         [
             'type' => 'Film',
             'title' => 'Aline',
@@ -40,6 +43,7 @@ class Movie
             'rating' => 4.0
         ],
 
+        // 3
         [
             'type' => 'Série',
             'title' => 'Stranger Things',

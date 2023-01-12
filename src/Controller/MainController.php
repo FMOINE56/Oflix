@@ -12,11 +12,10 @@ class MainController extends AbstractController
     /**
      * @Route("/", name="app_main_home")
      */
-    public function home(): Response
+    public function home(Movie $movieModel): Response
     {
-
-        // J'appelle le bon model (pensez au use)
-        $movieModel = new Movie;
+        // Exemple d'autowiring, en mettant en typeHint mon movieModel, symfony c'est chargé de l'instancié automatiquement
+        
 
         // J'utilise mon getter pour avoir les films
         $movies = $movieModel->getMovies();

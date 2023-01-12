@@ -36,7 +36,7 @@
                 <h2 class="text-muted fw-bold mb-4">Les films et séries/Résultats de recherche</h2>
 
 
-                {% for movie in movies %}
+                {% for key,movie in movies %}
                     
                 
                  <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm bg-white position-relative">
@@ -52,6 +52,7 @@
                             <p><small>{{movie.summary}}</small>
                             </p>
                             <div class="d-flex" style="color: orange;">
+                                  {# TODO Ici gérer l'affichage des étoiles par rapport à la note du film par exemple un film avec 3.5 aura 3 étoiles pleines : bi bi-star-fill, une étoile remplis à moitié :  bi bi-star-half et une étoile vide : bi bi-star#}
                                 {# <i class="bi bi-star-fill"></i>
                                 <i class="bi bi-star-fill"></i>
                                 <i class="bi bi-star-fill"></i>
@@ -59,7 +60,8 @@
                                 <i class="bi bi-star-half"></i> #}
                                 <span class="ps-1">{{movie.rating}}</span>
                             </div>
-                            <a href="./show.html" class="fs-1 mt-3 text-danger align-self-start">
+                            {# le premier id correspond au nom du paramètre définis dans la route et le deuxième correspond à sa valeur #}
+                            <a href="{{path("app_movie_show", {id:key})}}" class="fs-1 mt-3 text-danger align-self-start">
                                 <i class="bi bi-arrow-right-square"></i>
                             </a>
                         </div>
