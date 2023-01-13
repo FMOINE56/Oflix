@@ -15,7 +15,8 @@
                     </div>
 
                     <div class="col-8 p-4 d-flex flex-column position-static bg-light">
-                        <a href="" class="movie__favorite fs-1 my-2 mx-3 link-danger"><i class="bi bi-bookmark-plus"></i></a>
+                        {# exemple pour passer un paramètre à un include #}
+                        {% include "fragments/_favorite_button.html.twig" with {id:id} %}
                         <strong class="d-inline-block mb-2 text-primary">{{movie.type}}</strong>
                         <h3 class="mb-1">{{movie.title}}</h3>
                         <div class="mb-1 text-muted">{{movie.duration}} min</div>

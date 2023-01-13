@@ -44,7 +44,7 @@
 
                 {# le premier élément correspond à la variable crée et le deuxième au tableau depuis lequelle on boucle #}
                 {# ci dessous un exemple de syntaxe pour bouclé sur une association clé->valeur #}
-                {% for key,movie in movies %}
+                {% for id,movie in movies %}
                      
                     <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm bg-white position-relative">
                         <div class="col-4 movie__poster">
@@ -52,7 +52,7 @@
                             <!-- img src="https://m.media-amazon.com/images/M/MV5BNThmZGY4NzgtMTM4OC00NzNkLWEwNmEtMjdhMGY5YTc1NDE4XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg" class="img-fluid" -->
                         </div>
                         <div class="col-8 p-4 d-flex flex-column position-static">
-                            <a href="{{path("app_favorite_add", {id:key})}}" class="movie__favorite fs-1 my-2 mx-3 link-danger"><i class="bi bi-bookmark-plus"></i></a>
+                            {% include "fragments/_favorite_button.html.twig" with {id:id} only %}
                             <strong class="d-inline-block mb-2 text-primary">{{movie.type}}</strong>
                             <h3 class="mb-1">{{movie.title}}</h3>
                             <div class="mb-1 text-muted">{{movie.duration}} min</div>
@@ -68,7 +68,7 @@
                                 <span class="ps-1">{{movie.rating}}</span>
                             </div>
                             {# En deuxième argument, on peut assigner un paramètre à la route qui sera passé au controleur #}
-                            <a href="{{path("app_movie_show", {id:key})}}" class="fs-1 mt-3 text-danger align-self-start">
+                            <a href="{{path("app_movie_show", {id:id})}}" class="fs-1 mt-3 text-danger align-self-start">
                                 <i class="bi bi-arrow-right-square"></i>
                             </a>
                         </div>

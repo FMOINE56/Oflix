@@ -22,7 +22,7 @@ class FavoriteController extends AbstractController
 
         // Je vais piocher mes favoris dans le tableau de favoris des sessions
         $favorites = $session->get("favorites");
-
+        // dd($favorites);
         // $session->clear();
         // dd($favorites);
         return $this->render('favorite/list.html.twig',[
@@ -31,13 +31,25 @@ class FavoriteController extends AbstractController
     }
 
      /**
-     * @Route("/favoris/ajouter/{id}", name="app_favorite_add")
+     * @Route("/favoris/ajouter/{id}", name="app_favorite_add",requirements={"id"="\d+"})
      */
     public function add(RequestStack $requestStack,Movie $movie, int $id): Response
     {
 
         // Je récupère le film à mettre en favoris
         $movie = $movie->getMovieById($id);
+
+        // Ici on gère le cas ou la personne s'amuse avec l'url
+        if(!$movie){
+             // Ceci est un exemple de flash message
+            $this->addFlash(
+                'danger',
+                "Le film que vous voulez ajouter n'existe pas"
+            );
+
+            return $this->redirectToRoute("app_favorite_list");
+        
+        }
         
         // grâce à requestStack, on peut utiliser la methode getSession pour récuperer un objet qui nous permettra de manipuler les sessions
         $session = $requestStack->getSession();
@@ -71,7 +83,7 @@ class FavoriteController extends AbstractController
 
 
      /**
-     * @Route("/favoris/supprimer/{id}", name="app_favorite_remove")
+     * @Route("/favoris/supprimer/{id}", name="app_favorite_remove",requirements={"id"="\d+"})
      */
     // Ci dessous un exemple d'autowiring avec le type-hint
     public function remove(RequestStack $requestStack, int $id): Response
@@ -94,10 +106,14 @@ class FavoriteController extends AbstractController
                 "Le film n'est pas présent dans les favoris"
             );
         }
-        //TODO SINON plus tard
 
         // Je mets mon tableau de favoris dans les favoris avec la valeur en moins que j'ai supprimé
         $session->set("favorites", $favorites);
+
+        $this->addFlash(
+            'warning',
+            "Le film a bien été enlevé des favoris"
+        );
 
         // Je redirige
         return $this->redirectToRoute('app_favorite_list');
