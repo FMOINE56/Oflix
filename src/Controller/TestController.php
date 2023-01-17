@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Movie;
+use App\Entity\Season;
 use App\Repository\MovieRepository;
 use DateTime;
 use Doctrine\ORM\EntityManager;
@@ -58,6 +59,11 @@ class TestController extends AbstractController
         // exemple avec doctrine pour récupérer le repository et les films en une linge
         $movies = $doctrine->getRepository(Movie::class)->findAll();
 
+        // foreach($movies as $movie){
+        //     foreach($movie->getSeasons() as $season){
+        //         // dump($season);
+        //     }
+        // }
         dd($movies);
         return $this->render('test/index.html.twig');
     }
@@ -108,6 +114,31 @@ class TestController extends AbstractController
 
         // ! persist n'est pas necessaire pour une modification, on peu flush directemnt
         $entityManager->flush();
+
+        return $this->redirectToRoute("app_test_list");
+    }
+
+       /**
+     * @Route("/test/saison/add/{id}", name="app_test_addSeason")
+     */
+    
+    public function addSeason(ManagerRegistry $doctrine,Movie $movie): Response
+    {
+
+        $entityManager = $doctrine->getManager();
+
+        $season = new Season();
+
+        // Je crée ma saison et je la lie au film grâce au setter
+        $season->setNumberEpisodes(15);
+        $season->setNumberSeason(1);
+
+        // En cas de relation many to many attention la méthode est add... et non set...
+        $season->setMovie($movie);
+
+        $entityManager->persist($season);
+        $entityManager->flush();
+
 
         return $this->redirectToRoute("app_test_list");
     }
