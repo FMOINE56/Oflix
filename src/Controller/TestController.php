@@ -52,7 +52,7 @@ class TestController extends AbstractController
     // on utilise l'autowiring pour récupérer doctrine
     public function list(MovieRepository $movieRepository, ManagerRegistry $doctrine): Response
     {
-        
+
         // Je récupère tous les films
         // exemple avec le movieRepository directement
         // $movies = $movieRepository->findAll();
