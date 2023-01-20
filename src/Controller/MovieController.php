@@ -6,6 +6,7 @@ use App\Entity\Movie;
 use App\Repository\CastingRepository;
 use App\Repository\MovieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -14,11 +15,11 @@ class MovieController extends AbstractController
     /**
      * @Route("/film-serie", name="app_movie_list")
      */
-    public function list(MovieRepository $movieRepository): Response
+    public function list(MovieRepository $movieRepository, Request $request): Response
     {
 
         // Je récupère tous les films à l'aide du repository
-        $movies = $movieRepository->findAllOrderByTitle();
+        $movies = $movieRepository->findAllOrderByTitleSearch($request->get("search"));
 
         return $this->render('movie/list.html.twig', [
             'movies' => $movies,

@@ -43,10 +43,12 @@ class MovieRepository extends ServiceEntityRepository
      * 
      * @return Movie[] Returns an array of Movie objects ordered by title
      */
-    public function findAllOrderByTitle(){
+    public function findAllOrderByTitleSearch($needle = null){
         // Quand on créer requpete personnalisé avec le builder , on utilise la ligne ci-dessous
         return $this->createQueryBuilder('m')
-            ->orderBy("m.title", "ASC")
+            ->orderBy("m.title")
+            ->where("m.title LIKE :needle")
+            ->setParameter("needle","%$needle%")
             ->getQuery()
             ->getResult();
     }
