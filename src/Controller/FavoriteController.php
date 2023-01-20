@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Model\Movie;
+use App\Entity\Movie;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,23 +33,9 @@ class FavoriteController extends AbstractController
      /**
      * @Route("/favoris/ajouter/{id}", name="app_favorite_add",requirements={"id"="\d+"})
      */
-    public function add(RequestStack $requestStack,Movie $movie, int $id): Response
+    public function add(RequestStack $requestStack,Movie $movie): Response
     {
 
-        // Je récupère le film à mettre en favoris
-        $movie = $movie->getMovieById($id);
-
-        // Ici on gère le cas ou la personne s'amuse avec l'url
-        if(!$movie){
-             // Ceci est un exemple de flash message
-            $this->addFlash(
-                'danger',
-                "Le film que vous voulez ajouter n'existe pas"
-            );
-
-            return $this->redirectToRoute("app_favorite_list");
-        
-        }
         
         // grâce à requestStack, on peut utiliser la methode getSession pour récuperer un objet qui nous permettra de manipuler les sessions
         $session = $requestStack->getSession();
@@ -63,7 +49,7 @@ class FavoriteController extends AbstractController
                 // dans ce tableau on a les index des films en favoris, avec pour valeur les objets des films
 
         // Je rajoute dans le tableau à l'index de l'id du film, le film, cette ligne permet à la fois de retrouver facilement un film dans les favoris par son id et d'éviter les doublons
-        $favorites[$id] = $movie;
+        $favorites[$movie->getId()] = $movie;
 
         // Une fois la session modifié comme je le souhaite je peux la remettre à sa place
         $session->set("favorites", $favorites);
@@ -71,11 +57,9 @@ class FavoriteController extends AbstractController
         // Ceci est un exemple de flash message
         $this->addFlash(
             'success',
-            $movie["title"].' a bien été ajouté aux favoris'
+            $movie->getTitle().' a bien été ajouté aux favoris'
         );
         
-
-
 
         return $this->redirectToRoute('app_favorite_list');
 

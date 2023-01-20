@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\Model\Movie;
+
+use App\Repository\MovieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,13 +13,10 @@ class MainController extends AbstractController
     /**
      * @Route("/", name="app_main_home")
      */
-    public function home(Movie $movieModel): Response
+    public function home(MovieRepository $movieRepository): Response
     {
-        // Exemple d'autowiring, en mettant en typeHint mon movieModel, symfony c'est chargé de l'instancié automatiquement
         
-
-        // J'utilise mon getter pour avoir les films
-        $movies = $movieModel->getMovies();
+        $movies = $movieRepository->findAllOrderByReleaseDate();
 
         // render en premier argument prend le template à afficher
         // en deuxième argument il prend un tableau de 

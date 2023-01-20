@@ -39,6 +39,31 @@ class MovieRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * 
+     * @return Movie[] Returns an array of Movie objects ordered by title
+     */
+    public function findAllOrderByTitle(){
+        // Quand on créer requpete personnalisé avec le builder , on utilise la ligne ci-dessous
+        return $this->createQueryBuilder('m')
+            ->orderBy("m.title", "ASC")
+            ->getQuery()
+            ->getResult();
+    }
+
+      /**
+     * 
+     * @return Movie[] Returns an array of Movie objects ordered by title
+     */
+    public function findAllOrderByReleaseDate(){
+        // Quand on créer requpete personnalisé avec le builder , on utilise la ligne ci-dessous
+        return $this->createQueryBuilder('m')
+            ->orderBy("m.releaseDate", "DESC")
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Movie[] Returns an array of Movie objects
 //     */

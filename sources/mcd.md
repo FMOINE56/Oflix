@@ -13,7 +13,7 @@ actor:actor_id, name, surname
 
 :
 belongs_to, 0N movie, 0N genre
-movie:movie_id, title, duration, release_date, synopsis, summary, poster
+movie:movie_id, title, duration, release_date, synopsis, summary, poster, type, rating
 role, 0N movie, 0N actor: role, credit_order
 
 :

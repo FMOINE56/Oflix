@@ -32,7 +32,7 @@ class Movie
     /**
      * @ORM\Column(type="date")
      */
-    private $release_date;
+    private $releaseDate;
 
     /**
      * @ORM\Column(type="text")
@@ -64,10 +64,21 @@ class Movie
      */
     private $genres;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Casting::class, mappedBy="movie", orphanRemoval=true)
+     */
+    private $castings;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $type;
+
     public function __construct()
     {
         $this->seasons = new ArrayCollection();
         $this->genres = new ArrayCollection();
+        $this->castings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -101,12 +112,12 @@ class Movie
 
     public function getReleaseDate(): ?\DateTimeInterface
     {
-        return $this->release_date;
+        return $this->releaseDate;
     }
 
     public function setReleaseDate(?\DateTimeInterface $release_date): self
     {
-        $this->release_date = $release_date;
+        $this->releaseDate = $release_date;
 
         return $this;
     }
@@ -212,6 +223,48 @@ class Movie
         if ($this->genres->removeElement($genre)) {
             $genre->removeMovie($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Casting>
+     */
+    public function getCastings(): Collection
+    {
+        return $this->castings;
+    }
+
+    public function addCasting(Casting $casting): self
+    {
+        if (!$this->castings->contains($casting)) {
+            $this->castings[] = $casting;
+            $casting->setMovie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCasting(Casting $casting): self
+    {
+        if ($this->castings->removeElement($casting)) {
+            // set the owning side to null (unless already changed)
+            if ($casting->getMovie() === $this) {
+                $casting->setMovie(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }
