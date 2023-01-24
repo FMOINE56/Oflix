@@ -1,89 +1,127 @@
 {% extends "base.html.twig" %}
-{% block title %}{{movie.title}}{% endblock %}
+{% block title %}
+	{{movie.title}}
+{% endblock %}
 {% block body %}
-    <div class="container bg-lighttt pt-5">
+	<div class="container bg-lighttt pt-5">
 
-        <div class="row mb-2">
+		<div class="row mb-2">
 
-            <div class="col">
+			<div class="col">
+				{% include "fragments/_flash_message.html.twig" %}
 
-                <div
-                    class="row g-0 border rounded overflow-hidden flex-md-row align-items-start mb-4 shadow-smmm position-relative">
-                    <div class="col-4 movie__poster img-thumbnail">
-                        <img src="{{movie.poster}}" class="img-fluid">
-                        <!-- img src="https://m.media-amazon.com/images/M/MV5BNThmZGY4NzgtMTM4OC00NzNkLWEwNmEtMjdhMGY5YTc1NDE4XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg" class="img-fluid" -->
-                    </div>
+				<div class="row g-0 border rounded overflow-hidden flex-md-row align-items-start mb-4 shadow-smmm position-relative">
+					<div class="col-4 movie__poster img-thumbnail">
+						<img
+						src="{{movie.poster}}" class="img-fluid">
+					<!-- img src="https://m.media-amazon.com/images/M/MV5BNThmZGY4NzgtMTM4OC00NzNkLWEwNmEtMjdhMGY5YTc1NDE4XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg" class="img-fluid" -->
+					</div>
 
-                    <div class="col-8 p-4 d-flex flex-column position-static bg-light">
-                        {# exemple pour passer un paramètre à un include #}
-                        {% include "fragments/_favorite_button.html.twig" with {id:movie.id} %}
-                        <strong class="d-inline-block mb-2 text-primary">{{movie.type}}</strong>
-                        <h3 class="mb-1">{{movie.title}}</h3>
-                        <div class="mb-1 text-muted">{{movie.duration}} min</div>
-                   
-                   {# Je check si le film a des genres #}
-                        {% if movie.genres is not empty %}
-                            <p>
-                            {# si oui je boucle #}
-                                {% for genre in movie.genres %}
-                                    <span class="badge bg-warning text-dark">{{genre.name}}</span>
-                                {% endfor %}
-                            </p>
-                        
-                        {% endif %}
-                        <p>{{movie.synopsis}}
-                        </p>
-                        <div class="d-flex mb-4" style="color: orange;">
-                        {# TODO Ici gérer l'affichage des étoiles par rapport à la note du film par exemple un film avec 3.5 aura 3 étoiles pleines : bi bi-star-fill, une étoile remplis à moitié :  bi bi-star-half et une étoile vide : bi bi-star#}
-                            {# <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-half"></i> #}
-                            <span class="ps-1">{{movie.rating}}</span>
-                        </div>
+					<div
+						class="col-8 p-4 d-flex flex-column position-static bg-light">
+						{# exemple pour passer un paramètre à un include #}
+						{% include "fragments/_favorite_button.html.twig" with {id:movie.id} %}
+						<strong class="d-inline-block mb-2 text-primary">{{movie.type}}</strong>
+						<h3 class="mb-1">{{movie.title}}</h3>
+						<div class="mb-1 text-muted">{{movie.duration}}
+							min</div>
 
+						{# Je check si le film a des genres #}
+						{% if movie.genres is not empty %}
+							<p>
+								{# si oui je boucle #}
+								{% for genre in movie.genres %}
+									<span class="badge bg-warning text-dark">{{genre.name}}</span>
+								{% endfor %}
+							</p>
 
-                        {# Je check s'il y a des saisons ou non #}
-                        {% if movie.seasons is not empty %}
-                        {# si oui j'affiche la oui les saisons #}
-                        {# ici le |length permet de determiner le nombre de saisons pour la série #}
-                            <h2>{{movie.seasons|length}} Saisons</h2>
-                            <ul class="list-unstyled">
-                            {# Je boucle sur les saisons pour les afficher #}
-                        {% for season in movie.seasons %}
-                            <li><span class="badge bg-danger fs-6 mb-2">Saison {{season.numberSeason}}</span><small class="ms-1">({{season.numberEpisodes}} épisodes)</small></li>
-                        {% endfor %}
-                
-                        </ul> 
-                        {% endif %}
-                        
-                      
+						{% endif %}
+						<p>{{movie.synopsis}}
+						</p>
+						<div class="d-flex mb-4" style="color: orange;">
+							{# TODO Ici gérer l'affichage des étoiles par rapport à la note du film par exemple un film avec 3.5 aura 3 étoiles pleines : bi bi-star-fill, une étoile remplis à moitié :  bi bi-star-half et une étoile vide : bi bi-star#}
+							{# <i class="bi bi-star-fill"></i>
+							                            <i class="bi bi-star-fill"></i>
+							                            <i class="bi bi-star-fill"></i>
+							                            <i class="bi bi-star-fill"></i>
+							                            <i class="bi bi-star-half"></i> #}<span class="ps-1"> {{movie.rating}}</span>
+						</div>
 
 
-                        <dl class="row">
-                            {% if castingList is not empty %}
-                                <dt class="col-sm-12">Avec</dt>
-                                <dd class="col-sm-12">
-                                    {% for casting in castingList %}
-                            
-                                        Acteur {{casting.person.firstname}} {{casting.person.lastname}} ({{casting.role}})<br>
-                                    {% endfor %}
-                                </dd>
-                            
-                            {% endif %}
-                            {# <dt class="col-sm-12">Pays</dt>
-                            <dd class="col-sm-12">USA</dd> #}
-                            <dt class="col-sm-12">Année</dt>
-                            <dd class="col-sm-12">{{movie.releaseDate|date("Y") }}</dd>
-                        </dl>
+						{# Je check s'il y a des saisons ou non #}
+						{% if movie.seasons is not empty %}
+							{# si oui j'affiche la oui les saisons #}
+							{# ici le |length permet de determiner le nombre de saisons pour la série #}<h2>
+								{{movie.seasons|length}}Saisons
+							</h2>
+								<ul
+								class="list-unstyled"> {# Je boucle sur les saisons pour les afficher #}
+								{% for season in movie.seasons %}
+									<li>
+										<span class="badge bg-danger fs-6 mb-2">Saison
+											{{season.numberSeason}}</span>
+										<small class="ms-1">({{season.numberEpisodes}}
+											épisodes)</small>
+									</li>
+								{% endfor %}
 
-                    </div>
-                </div>
+							</ul>
+						{% endif %}
 
-            </div>
 
-        </div>
+						<dl class="row">
+							{% if castingList is not empty %}
+								<dt class="col-sm-12">Avec</dt>
+								<dd class="col-sm-12">
+									{% for casting in castingList %}
 
-    </div>
+										Acteur
+										{{casting.person.firstname}}
+										{{casting.person.lastname}}
+										({{casting.role}})<br>
+									{% endfor %}
+								</dd>
+
+							{% endif %}
+							{# <dt class="col-sm-12">Pays</dt>
+							                            <dd class="col-sm-12">USA</dd> #}
+							<dt class="col-sm-12">Année</dt>
+							<dd class="col-sm-12">{{movie.releaseDate|date("Y") }}</dd>
+						</dl>
+						{# Bouton piqué sur booostrap pour faire un lien vers l'ajout d'une critique #}
+						<div class="d-grid gap-2">
+							<a href="{{path("app_review_add", {id:movie.id})}}" class="btn btn-danger">Ajouter une critique</a>
+						</div>
+
+						<div class="row mt-5">
+						{% if movie.reviews is not empty %}
+						
+							<h2 class="text-center">Les critiques</h2>
+							{% for review in movie.reviews %}
+								<div class="card text-center mb-3">
+									<div class="card-header">
+
+										{{review.username}}
+									</div>
+									<div class="card-body">
+										{{review.rating}}
+										<p class="card-text">{{review.content}}</p>
+                                        {% for reaction in review.reactions %}
+										<span class="btn btn-warning">{{reaction}}</span>
+                                        {% endfor %}
+									</div>
+									<div class="card-footer text-muted">
+										date de visionnage : {{review.watchedAt|date("d/m/Y")}}
+									</div>
+								{% endfor %}
+							</div>
+						</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
 {% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un commentaire{% endblock %}
+
+{% block body %}
+
+    <main class="container mt-4 mb-4">
+    
+    {{form_start(form, {attr:{novalidate:"novalidate"}})}}
+
+    {# Quand on veut gérer un champs au cas par cas #}
+    {# form_row pour toute la div #}
+    {# form_label #}
+    {# form_widget pour l'input #}
+    {# form_error pour l'erreur #}
+    {# form_help pour le petit message d'aide #}
+    <div class="col-5 mx-auto">
+        {{form_row(form.watchedAt)}}
+    </div>
+
+        {# form_widget(form) ou form_rest(form) affiche tout les autres champs manquant #}
+        {{form_rest(form) }}
+        
+        <button class="btn btn-success" type="submit">Envoyer</button>
+    {{form_end(form)}}
+    </main>
+
+{% endblock %}

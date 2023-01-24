@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\ReviewRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -14,21 +14,27 @@ class Review
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Email
      */
     private $email;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank
+     * @Assert\Length(min = 100)
      */
     private $content;
 
@@ -44,13 +50,16 @@ class Review
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Assert\NotBlank
      */
     private $watchedAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Movie::class)
+     * @ORM\ManyToOne(targetEntity=Movie::class, inversedBy="reviews")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $movie;
+
 
     public function getId(): ?int
     {
@@ -122,7 +131,7 @@ class Review
         return $this->watchedAt;
     }
 
-    public function setWatchedAt(\DateTimeImmutable $watchedAt): self
+    public function setWatchedAt(?\DateTimeImmutable $watchedAt): self
     {
         $this->watchedAt = $watchedAt;
 
@@ -140,4 +149,5 @@ class Review
 
         return $this;
     }
+
 }
