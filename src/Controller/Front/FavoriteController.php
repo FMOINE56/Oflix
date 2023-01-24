@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Front;
 
 use App\Entity\Movie;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,7 +25,7 @@ class FavoriteController extends AbstractController
         // dd($favorites);
         // $session->clear();
         // dd($favorites);
-        return $this->render('favorite/list.html.twig',[
+        return $this->render('front/favorite/list.html.twig',[
             "favorites" => $favorites
         ]);
     }

@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Controller;
-
+namespace App\Controller\Front;
 
 use App\Repository\MovieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +20,7 @@ class MainController extends AbstractController
 
         // render en premier argument prend le template à afficher
         // en deuxième argument il prend un tableau de 
-        return $this->render('main/home.html.twig', [
+        return $this->render('front/main/home.html.twig', [
             'movies' => $movies,
         ]);
     }

@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Controller;
-
+namespace App\Controller\Front;
 use App\Entity\Movie;
 use App\Repository\CastingRepository;
 use App\Repository\MovieRepository;
@@ -25,7 +24,7 @@ class MovieController extends AbstractController
         // Je récupère tous les films à l'aide du repository
         $movies = $movieRepository->findAllOrderByTitleSearch($request->get("search"));
 
-        return $this->render('movie/list.html.twig', [
+        return $this->render('front/movie/list.html.twig', [
             'movies' => $movies,
         ]);
     }
@@ -48,7 +47,7 @@ class MovieController extends AbstractController
         // Ici le film est récupéré en bdd automatiquement par symfo à l'aide de ce qu'on appelle le paramConverter
         // Le paramConverter va analyser le paramètre d'url, s'il correspond avec un attribut de la classe passé en paramètre de la fonction il va automatiquement faire un findBy(le param, ici l'id) de l'objet en bdd et l'instancier
 
-        return $this->render('movie/show.html.twig', [
+        return $this->render('front/movie/show.html.twig', [
             'movie' => $movie,
             'castingList' => $castingList
         ]);
