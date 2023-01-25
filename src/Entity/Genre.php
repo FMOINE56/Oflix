@@ -29,6 +29,11 @@ class Genre
      */
     private $movies;
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
     public function __construct()
     {
         $this->movies = new ArrayCollection();
@@ -59,6 +64,11 @@ class Genre
         return $this->movies;
     }
 
+    /**
+     * @param Movie $movie une instance de film
+     * 
+     * @return Genre $genre l'instance de genre actuel
+     */
     public function addMovie(Movie $movie): self
     {
         if (!$this->movies->contains($movie)) {

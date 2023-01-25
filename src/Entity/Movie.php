@@ -6,6 +6,7 @@ use App\Repository\MovieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MovieRepository::class)
@@ -21,36 +22,47 @@ class Movie
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min = 1, max = 255)
+     * @Assert\NotBlank
      */
     private $title;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Range(min = 1, max = 400)
+     * @Assert\NotBlank
      */
     private $duration;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\NotBlank
      */
     private $releaseDate;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min = 50, max = 2000)
+     * @Assert\NotBlank
      */
     private $synopsis;
 
     /**
      * @ORM\Column(type="string", length=500)
+     * @Assert\Length(min = 10, max = 500)
+     * @Assert\NotBlank
      */
     private $summary;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url
+     * @Assert\Length(min = 10, max = 255)
      */
     private $poster;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable="true")
      */
     private $rating;
 
@@ -171,7 +183,33 @@ class Movie
 
     public function getRating(): ?float
     {
-        return $this->rating;
+
+        // TODO Pour le moment on laisse comme ça mais on verra plus tard comment implémenter cette fonctionnalité de manière plus opti
+        // Je récupère les reviews à l'aide de getReviews
+        $reviews = $this->getReviews();
+
+        // Si j'ai au moins une review
+        if(count($reviews) > 0){
+            
+            // J'initialise une variable allNotes à 0
+            $allNotes = null;
+
+            // Je foreach sur les reviews et j'additione toutes les notes dans allNotes
+            foreach($reviews as $review){
+                $allNotes += $review->getRating();
+            }
+
+            // Je divise le total des notes par le nombre de note
+            $rating = $allNotes / count($reviews);
+
+            // Je retourne ma moyenne arrondi à un chiffre après la virgule
+            return round($rating,1);
+        }else{
+            // Si jamais il n'y a pas de note je renvoi 0
+            return 0;
+        }
+
+        // return $this->rating;
     }
 
     public function setRating(?float $rating): self

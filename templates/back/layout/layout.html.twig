@@ -1,0 +1,20 @@
+{% extends "base.html.twig" %}
+
+{% block menu %}
+<li class="nav-item">
+    <a class="nav-link" href="{{path("app_main_home")}}">Front-office</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link{% if "movie" in app.request.get("_route") %} active {% endif %}" href="{{path("app_back_movie_index")}}">Film-séries</a>
+</li>
+
+
+{% endblock %}
+
+{% block body %}
+
+<div class="container mt-3 mb-3">
+    {% block subBody %}{% endblock %}
+</div>
+
+{% endblock %}

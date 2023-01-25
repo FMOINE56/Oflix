@@ -1,21 +1,22 @@
-{% extends 'base.html.twig' %}
+{% extends 'back/layout/layout.html.twig' %}
 
-{% block title %}Movie index{% endblock %}
+{% block title %}Les films{% endblock %}
 
-{% block body %}
-    <h1>Movie index</h1>
+{% block subBody %}
+    <h1>Les films</h1>
+    <a href="{{ path('app_back_movie_add') }}">Créer un film</a>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Title</th>
-                <th>Duration</th>
-                <th>ReleaseDate</th>
+                <th>Titre</th>
+                <th>Durée en min</th>
+                <th>Date de sortie</th>
                 <th>Synopsis</th>
-                <th>Summary</th>
-                <th>Poster</th>
-                <th>Rating</th>
+                <th>Sommaire</th>
+                <th>image</th>
+                {# <th>Rating</th> #}
                 <th>Type</th>
                 <th>actions</th>
             </tr>
@@ -27,14 +28,14 @@
                 <td>{{ movie.title }}</td>
                 <td>{{ movie.duration }}</td>
                 <td>{{ movie.releaseDate ? movie.releaseDate|date('Y-m-d') : '' }}</td>
-                <td>{{ movie.synopsis }}</td>
-                <td>{{ movie.summary }}</td>
-                <td>{{ movie.poster }}</td>
-                <td>{{ movie.rating }}</td>
+                <td>{{ movie.synopsis|slice(0,20) }} ...</td>
+                <td>{{ movie.summary|slice(0,9) }} ...</td>
+                <td><img width="30" height="50" src="{{ movie.poster }}" alt=""></td>
+                {# <td>{{ movie.rating }}</td> #}
                 <td>{{ movie.type }}</td>
                 <td>
-                    <a href="{{ path('app_back_movie_show', {'id': movie.id}) }}">show</a>
-                    <a href="{{ path('app_back_movie_edit', {'id': movie.id}) }}">edit</a>
+                    <a class="btn btn-success" href="{{ path('app_back_movie_show', {'id': movie.id}) }}"><i class="bi bi-eye"></i></a>
+                    <a class="btn btn-warning" href="{{ path('app_back_movie_edit', {'id': movie.id}) }}"><i class="bi bi-pencil"></i></a>
                 </td>
             </tr>
         {% else %}
@@ -45,5 +46,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_back_movie_add') }}">Create new</a>
+   
 {% endblock %}

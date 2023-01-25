@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <div class="container">
+        <h1 class="text-center">OOPS erreur {{status_code}} : {{status_text}}</h1>
+        {% if status_code is same as 404 %}
+            <img class="d-block mx-auto" src="https://i.pinimg.com/736x/31/c4/1e/31c41eef6898eba65bd6be4a4f9c93ed--peugeot--car-pics.jpg" alt="peugeot 404">
+        {% endif %}
+        {% if status_code is same as 500 %}
+          <img width="800" height="500" class="d-block mx-auto" src="https://erclassics.b-cdn.net/media/catalog/product/cache/3/thumbnail/1920x/17f82f742ffe127f42dca9de82fb58b1/f/i/fiat-500l-1970-f5271-042.jpg" alt="fiat 500">
+        {% endif %}
+        <a href="{{path("app_main_home")}}">Retourner sur l'accueil</a>
+    </div>
+
+{% endblock %}

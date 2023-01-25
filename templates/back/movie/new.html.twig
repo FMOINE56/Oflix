@@ -1,11 +1,13 @@
-{% extends 'base.html.twig' %}
+{% extends 'back/layout/layout.html.twig' %}
 
-{% block title %}New Movie{% endblock %}
+{% block title %}Nouveau film{% endblock %}
 
-{% block body %}
-    <h1>Create new Movie</h1>
+{% block subBody %}
+    <h1>Nouveau film</h1>
 
     {{ include('back/movie/_form.html.twig') }}
 
-    <a href="{{ path('app_back_movie_index') }}">back to list</a>
+    <div class="mt-3">
+        <a href="{{ path('app_back_movie_index') }}">back to list</a>
+    </div>
 {% endblock %}

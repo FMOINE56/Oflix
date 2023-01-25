@@ -1,0 +1,104 @@
+	<div class="d-flex mb-4" style="color: orange;">
+    {# TODO Ici gérer l'affichage des étoiles par rapport à la note du film par exemple un film avec 3.5 aura 3 étoiles pleines : bi bi-star-fill, une étoile remplis à moitié :  bi bi-star-half et une étoile vide : bi bi-star#}
+        {# ! Version François #}
+        {# {% for i in range(0, 4) %}
+        {% if movie.rating - i + 0.0000000001 >= 0.8 %}
+            <i class="bi bi-star-fill"></i>
+        {% elseif movie.rating - i - 0.0000000001 <= 0.2 %}
+            <i class="bi bi-star"></i>
+        {% else %}
+            <i class="bi bi-star-half"></i>
+        {% endif %}
+        {% endfor %} #}
+        {# ! version jb #}
+        {# {% set rounded_note = (movie.rating >= 4.5 and movie.rating < 5) ? 4.5 : (movie.rating * 2 // 1)/2  %}
+        {% for i in 0..4 %}
+            {% if i < rounded_note %}
+                {% if i + 0.5 == rounded_note %}
+                    <i class="bi bi-star-half"></i>
+                {% else %}
+                    <i class="bi bi-star-fill"></i>
+                {% endif %}
+            {% else %}
+                <i class="bi bi-star"></i>
+            {% endif %}
+        {% endfor %} #}
+
+        {# ! version samar #}
+        {# <i class="bi bi-star{% if movie.rating > 1 %}-fill{% elseif movie.rating > 0  %}-half{% else %}{% endif %}"></i>
+            <i class="bi bi-star{% if movie.rating > 2 %}-fill{% elseif movie.rating > 1  %}-half{% else %}{% endif %}"></i>
+            <i class="bi bi-star{% if movie.rating > 3 %}-fill{% elseif movie.rating > 2  %}-half{% else %}{% endif %}"></i>
+            <i class="bi bi-star{% if movie.rating > 4 %}-fill{% elseif movie.rating > 3  %}-half{% else %}{% endif %}"></i>
+            <i class="bi bi-star{% if movie.rating == 5 %}-fill{% elseif movie.rating > 4 %}-half{% else %}{% endif %}"></i> #}
+
+        {# !version Laure #}
+        {# {% if movie.rating >= 1 %}
+            {% for i in 1..movie.rating|round(0, 'floor') %}
+                <i class="bi bi-star-fill"></i>
+            {% endfor %}
+        {% endif %}
+
+        {% if movie.rating - movie.rating|round(0, 'floor') != '0' %}
+            <i class="bi bi-star-half"></i>
+        {% endif %}
+
+        {% if movie.rating <= 4 %}
+            {% for i in 1..(5 - movie.rating)|round(0, 'floor') %}
+                <i class="bi bi-star"></i>
+            {% endfor %}
+        {% endif %} #}
+    
+        {# ! JC #}
+        {# average des notes  #}
+        {# {% set avg = 0 %}
+        {% for review in movie.reviews %}
+            {% set avg = (avg + review.rating) %}        
+        {% endfor %}
+            {% if movie.reviews|length != 0 %}
+                {% set avg = avg / movie.reviews|length %}
+            {% endif %}
+        {% set rate = avg|split('.') %}
+        {% set star = 5 - avg | round(0, 'ceil') %}
+        {% if rate[0] == 0 %}
+            <i class=""></i>
+        {% else %} 
+        {% for i in 1..rate[0] %}
+            <i class="bi bi-star-fill"></i>  
+        {% endfor %}
+        {% endif %}
+        {% if rate[1] is defined %}
+            <i class="bi bi-star-half"></i>
+        {% endif %}
+        {% if star != 0 %}
+        {% for i in 1..star %}
+            <i class="bi bi-star"></i>   
+        {% endfor %}
+        {% endif %}
+        <span class="ps-1">{{avg|number_format(1)}}</span> #}
+
+        {# ! Méthode Cheetah (BEN) #}
+        <span class="ps-1"> {{movie.rating}}</span>
+        {% set star = 0 %}
+        {# Je gère mes étoiles pleines en bouclant de 1 à 5, si la boucle est inférieur à la note je rajoute une étoile pleine #}
+        {# * ici je gère mes étoiles pleines #}
+        {% for item in 1..5 %}
+            {% if item <= movie.rating %}
+                {% set star = star + 1 %}
+                <i class="bi bi-star-fill"></i>
+            {% endif %}
+        {% endfor %}
+
+        {# * je gère la moitié d'étoile #}
+        {% if star < movie.rating %}
+            {% set star = star + 1 %}
+            <i class="bi bi-star-half"></i>
+        {% endif %}
+
+        {# * je gère mes étoiles vide #}
+        {% if star < 5 %}
+            {% for item in star..4 %}
+                <i class="bi bi-star"></i>
+            {% endfor %}
+        {% endif %}
+        
+</div>

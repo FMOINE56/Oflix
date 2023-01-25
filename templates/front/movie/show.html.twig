@@ -3,14 +3,14 @@
 	{{movie.title}}
 {% endblock %}
 {% block body %}
-	<div class="container bg-lighttt pt-5">
+	<div class="container bg-light pt-5">
 
 		<div class="row mb-2">
 
 			<div class="col">
 				{% include "fragments/_flash_message.html.twig" %}
 
-				<div class="row g-0 border rounded overflow-hidden flex-md-row align-items-start mb-4 shadow-smmm position-relative">
+				<div class="row g-0 border rounded overflow-hidden flex-md-row align-items-start mb-4 shadow-sm position-relative">
 					<div class="col-4 movie__poster img-thumbnail">
 						<img
 						src="{{movie.poster}}" class="img-fluid">
@@ -38,21 +38,16 @@
 						{% endif %}
 						<p>{{movie.synopsis}}
 						</p>
-						<div class="d-flex mb-4" style="color: orange;">
-							{# TODO Ici gérer l'affichage des étoiles par rapport à la note du film par exemple un film avec 3.5 aura 3 étoiles pleines : bi bi-star-fill, une étoile remplis à moitié :  bi bi-star-half et une étoile vide : bi bi-star#}
-							{# <i class="bi bi-star-fill"></i>
-							                            <i class="bi bi-star-fill"></i>
-							                            <i class="bi bi-star-fill"></i>
-							                            <i class="bi bi-star-fill"></i>
-							                            <i class="bi bi-star-half"></i> #}<span class="ps-1"> {{movie.rating}}</span>
-						</div>
-
+					
+				
+						{% include "fragments/_stars.html.twig" %}
 
 						{# Je check s'il y a des saisons ou non #}
 						{% if movie.seasons is not empty %}
 							{# si oui j'affiche la oui les saisons #}
-							{# ici le |length permet de determiner le nombre de saisons pour la série #}<h2>
-								{{movie.seasons|length}}Saisons
+							{# ici le |length permet de determiner le nombre de saisons pour la série #}
+								<h2>{{movie.seasons|length}}
+							Saisons
 							</h2>
 								<ul
 								class="list-unstyled"> {# Je boucle sur les saisons pour les afficher #}
@@ -84,7 +79,7 @@
 
 							{% endif %}
 							{# <dt class="col-sm-12">Pays</dt>
-							                            <dd class="col-sm-12">USA</dd> #}
+														                            <dd class="col-sm-12">USA</dd> #}
 							<dt class="col-sm-12">Année</dt>
 							<dd class="col-sm-12">{{movie.releaseDate|date("Y") }}</dd>
 						</dl>
@@ -93,29 +88,30 @@
 							<a href="{{path("app_review_add", {id:movie.id})}}" class="btn btn-danger">Ajouter une critique</a>
 						</div>
 
-						<div class="row mt-5">
 						{% if movie.reviews is not empty %}
-						
-							<h2 class="text-center">Les critiques</h2>
-							{% for review in movie.reviews %}
-								<div class="card text-center mb-3">
-									<div class="card-header">
+							<section class="row mt-5 bg-white">
 
-										{{review.username}}
-									</div>
-									<div class="card-body">
-										{{review.rating}}
-										<p class="card-text">{{review.content}}</p>
-                                        {% for reaction in review.reactions %}
-										<span class="btn btn-warning">{{reaction}}</span>
-                                        {% endfor %}
-									</div>
-									<div class="card-footer text-muted">
-										date de visionnage : {{review.watchedAt|date("d/m/Y")}}
+								<h2 class="text-center">Les critiques</h2>
+								{% for review in movie.reviews %}
+									<div class="card text-center mb-3">
+										<div class="card-header">
+
+											{{review.username}}
+										</div>
+										<div class="card-body">
+											{{review.rating}}
+											<p class="card-text">{{review.content}}</p>
+											{% for reaction in review.reactions %}
+												<span class="btn btn-warning">{{reaction}}</span>
+											{% endfor %}
+										</div>
+										<div class="card-footer text-muted">
+											date de visionnage :
+											{{review.watchedAt|date("d/m/Y")}}
+										</div>
 									</div>
 								{% endfor %}
-							</div>
-						</div>
+							</section>
 						{% endif %}
 					</div>
 				</div>

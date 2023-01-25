@@ -58,11 +58,7 @@
 							</p>
 							<div class="d-flex" style="color: orange;">
 								{# TODO Ici gérer l'affichage des étoiles par rapport à la note du film par exemple un film avec 3.5 aura 3 étoiles pleines : bi bi-star-fill, une étoile remplis à moitié :  bi bi-star-half et une étoile vide : bi bi-star#}
-								{# <i class="bi bi-star-fill"></i>
-								                                <i class="bi bi-star-fill"></i>
-								                                <i class="bi bi-star-fill"></i>
-								                                <i class="bi bi-star-fill"></i>
-								                                <i class="bi bi-star-half"></i> #}<span class="ps-1"> {{movie.rating}}</span>
+								{% include "fragments/_stars.html.twig" %}
 							</div>
 							{# le premier id correspond au nom du paramètre définis dans la route et le deuxième correspond à sa valeur #}
 							<a href="{{path("app_movie_show", {id:movie.id})}}" class="fs-1 mt-3 text-danger align-self-start">

@@ -7,6 +7,7 @@ use App\Entity\Casting;
 use App\Entity\Genre;
 use App\Entity\Movie;
 use App\Entity\Person;
+use App\Entity\Review;
 use App\Entity\Season;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -117,6 +118,16 @@ class AppFixtures extends Fixture
             },
             "NumberSeason" => function() use ($faker){
                 return $faker->unique->numberBetween(1,20);
+            }
+        ]);
+
+        // !
+        $populator->addEntity(Review::class,40,[
+            "rating" => function() use ($faker){
+                return $faker->numberBetween(1,5);
+            },
+            "reactions" => function() use ($faker){
+                return $faker->randomElements(['Rire', 'Pleurer', 'Réfléchir', 'Dormir', 'Rêver'],3);
             }
         ]);
 
