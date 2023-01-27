@@ -60,6 +60,7 @@ class MovieController extends AbstractController
     public function edit(Request $request, Movie $movie, MovieRepository $movieRepository): Response
     {
         $form = $this->createForm(MovieType::class, $movie);
+      
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

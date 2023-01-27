@@ -84,9 +84,13 @@
 							<dd class="col-sm-12">{{movie.releaseDate|date("Y") }}</dd>
 						</dl>
 						{# Bouton piqué sur booostrap pour faire un lien vers l'ajout d'une critique #}
-						<div class="d-grid gap-2">
-							<a href="{{path("app_review_add", {id:movie.id})}}" class="btn btn-danger">Ajouter une critique</a>
-						</div>
+						{% if is_granted("IS_AUTHENTICATED_FULLY") %}
+							<div class="d-grid gap-2">
+								<a href="{{path("app_review_add", {id:movie.id})}}" class="btn btn-danger">Ajouter une critique</a>
+							</div>
+						
+						{% endif %}
+						
 
 						{% if movie.reviews is not empty %}
 							<section class="row mt-5 bg-white">

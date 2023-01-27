@@ -21,6 +21,7 @@ security:
                 # "app_login" is the name of the route created previously
                 login_path: app_security_login
                 check_path: app_security_login
+                enable_csrf: true
             logout:
                 path: app_security_logout
 
@@ -34,8 +35,18 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/back-office, roles: ROLE_ADMIN }
+        # ! FRONT
+        - { path: ^/commentaire|favoris, roles: ROLE_USER }
+
+        # ! BACK-OFFICE
+        # Dans l'acl il est important de fonctionner du plus précis, au plus large
+        - { path: ^/back-office.*(ajouter|modifier|supprimer), roles: ROLE_ADMIN }
+
+        - { path: ^/back-office, roles: ROLE_MANAGER }
         # - { path: ^/profile, roles: ROLE_USER }
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_MANAGER
 
 when@test:
     security:

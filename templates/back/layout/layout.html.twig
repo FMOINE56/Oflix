@@ -5,7 +5,10 @@
     <a class="nav-link" href="{{path("app_main_home")}}">Front-office</a>
 </li>
 <li class="nav-item">
-    <a class="nav-link{% if "movie" in app.request.get("_route") %} active {% endif %}" href="{{path("app_back_movie_index")}}">Film-séries</a>
+    <a class="nav-link{% if "movie" in app.request.get("_route") %} active {% endif %}" href="{{path("app_back_movie_index")}}"><i class="bi bi-film"></i> Film-séries</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link{% if "user" in app.request.get("_route") %} active {% endif %}" href="{{path("app_back_user_index")}}"><i class="bi bi-person"></i> Utilisateurs</a>
 </li>
 
 

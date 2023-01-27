@@ -48,33 +48,59 @@
                     <li class="nav-item">
                         <a class="nav-link {% block movie_menu %}{% endblock %}" href="{{path("app_movie_list")}}"><i class="bi bi-film"></i> Films, séries TV</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% block favorite_menu %}{% endblock %}" href="{{path("app_favorite_list")}}"><i class="bi bi-bookmark"></i> Ma liste</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="{{path("app_back_movie_index")}}"><i class="bi bi-emoji-smile"></i> Back-office</a>
-                    </li>
+                    {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                        <li class="nav-item">
+                            <a class="nav-link {% block favorite_menu %}{% endblock %}" href="{{path("app_favorite_list")}}"><i class="bi bi-bookmark"></i> Ma liste</a>
+                        </li>
+                    
+                    {% endif %}
+                    {% if is_granted("ROLE_MANAGER") %}
+                        <li class="nav-item">
+                            <a class="nav-link " href="{{path("app_back_movie_index")}}"><i class="bi bi-emoji-smile"></i> Back-office</a>
+                        </li>
+                    
+                    {% endif %}
+                    
                 {% endblock %}
                 </ul>
+
+                {# permet de verifier les droits de la personne à voir le contenu #}
+                {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                {# {% if app.user %} #}
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown">
-                            <span>Charles</span>
+                            <span>
+                            {{app.user.email}}|
+                            {% if "ROLE_ADMIN" in app.user.roles %}
+                                Administrateur
+                            {% elseif "ROLE_MANAGER" in app.user.roles %}
+                                Manager
+                            {% else %}
+                                Utilisateur
+                            {% endif %}
+                            </span>
                             <i class="bi bi-person-square"></i>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Profil</a></li>
-                            <li><a class="dropdown-item" href="{{path("app_back_movie_index")}}">Backoffice</a></li>
+                            {% if is_granted("ROLE_MANAGER") %}
+                                <li><a class="dropdown-item" href="{{path("app_back_movie_index")}}">Backoffice</a></li>
+                            {% endif %}
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">Déconnexion</a></li>
+                            <li><a class="dropdown-item" href="{{path("app_security_logout")}}">Déconnexion</a></li>
                         </ul>
                     </li>
                 </ul>
+                {% else %}
+                    
+                    <a href="{{path("app_security_login")}}" class="btn btn-danger me-2">Connexion</a>
+                {% endif %}
 
-                <button type="button" class="btn btn-danger me-2">Connexion</button>
+
 
                 {% if "back" not in app.request.get("_route") %}
                 
