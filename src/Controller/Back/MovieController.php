@@ -5,9 +5,12 @@ namespace App\Controller\Back;
 use App\Entity\Movie;
 use App\Form\MovieType;
 use App\Repository\MovieRepository;
+use App\Service\SendMailService;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 
@@ -26,7 +29,7 @@ class MovieController extends AbstractController
     /**
      * @Route("/back-office/film/ajouter", name="app_back_movie_add", methods={"GET", "POST"})
      */
-    public function add(Request $request, MovieRepository $movieRepository): Response
+    public function add(Request $request, MovieRepository $movieRepository,SendMailService $sendMailService): Response
     {
         $movie = new Movie();
         $form = $this->createForm(MovieType::class, $movie);
@@ -34,6 +37,17 @@ class MovieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $movieRepository->add($movie, true);
+
+            // // ! Code avec le service sendMailService
+            // $context = [
+            //     "movie" => $movie,
+            //     "user" => $this->getUser()->getUserIdentifier()
+            // ];
+            // $sendMailService->send(
+            //     "Le film : ".$movie->getTitle()." a été crée",
+            //     "add_movie.html.twig",
+            //     $context
+            // );
 
             return $this->redirectToRoute('app_back_movie_index', [], Response::HTTP_SEE_OTHER);
         }
