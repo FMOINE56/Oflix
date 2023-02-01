@@ -9,12 +9,22 @@ use App\Entity\Movie;
 use App\Entity\Person;
 use App\Entity\Review;
 use App\Entity\Season;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
+    private $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+
+    }
+
     public function load(ObjectManager $manager): void
     {
         // Ici je crée mon faker français
@@ -121,7 +131,7 @@ class AppFixtures extends Fixture
             }
         ]);
 
-        // !
+        // !review
         $populator->addEntity(Review::class,40,[
             "rating" => function() use ($faker){
                 return $faker->numberBetween(1,5);
@@ -130,6 +140,25 @@ class AppFixtures extends Fixture
                 return $faker->randomElements(['Rire', 'Pleurer', 'Réfléchir', 'Dormir', 'Rêver'],3);
             }
         ]);
+
+        // !USER
+        $userAdmin = new User();
+        
+        // Création d'un admin
+        $userAdmin->setEmail("admin@gmail.com");
+        $userAdmin->setPassword($this->passwordHasher->hashPassword($userAdmin, "admin"));
+        $userAdmin->setRoles(["ROLE_ADMIN"]);
+        $manager->persist($userAdmin);
+
+        // Création d'un utilisateur classique
+        $user = new User();
+
+        $user->setEmail("user@gmail.com");
+        $user->setPassword($this->passwordHasher->hashPassword($user,"user"));
+        $manager->persist($user);
+
+
+
 
         // !Movie Genre 
         
