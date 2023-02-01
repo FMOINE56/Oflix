@@ -34,7 +34,7 @@ class MovieController extends AbstractController
     // ça permet premièrement de controler sa validité
     // deuxième ça donne la possibilité d'avoir deux routes similiaire mais avec des types de param differents
     /**
-     * @Route("/film-serie/{id}", name="app_movie_show",requirements={"id"="\d+"})
+     * @Route("/film-serie/{id}/{slug}", name="app_movie_show",requirements={"id"="\d+", "slug"="^[a-z0-9-]+$"})
      */
     // J'ai définis un paramètre à ma route qui s'appelle id, il sera disponible dans la variable $id, à condition d'avoir bien remplis la fonction path dans le twig
     public function show(Movie $movie, CastingRepository $castingRepository, MovieRepository $movieRepository): Response

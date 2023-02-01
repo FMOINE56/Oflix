@@ -10,6 +10,7 @@ use App\Entity\Person;
 use App\Entity\Review;
 use App\Entity\Season;
 use App\Entity\User;
+use App\Service\MySlugger;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
@@ -18,10 +19,12 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class AppFixtures extends Fixture
 {
     private $passwordHasher;
+    private $slugger;
 
-    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    public function __construct(UserPasswordHasherInterface $passwordHasher, MySlugger $slugger)
     {
         $this->passwordHasher = $passwordHasher;
+        $this->slugger = $slugger;
 
     }
 
@@ -40,7 +43,7 @@ class AppFixtures extends Fixture
         // for ($i=0; $i < 10; $i++) { 
         //     # code...
         //     $movie = new Movie();
-            
+
         //     $movie->setTitle("Film $i");
         //     $movie->setDuration("120");
         //     $movie->setReleaseDate(new DateTime());
@@ -49,33 +52,43 @@ class AppFixtures extends Fixture
         //     $movie->setPoster("photo.com");
         //     $movie->setRating(rand(0,5));
         //     $movie->SetType("film");
-            
+
         //     $manager->persist($movie);
         // }
 
         // Movie::class pour faire référence à la classe et 5 pour le nom d'itération en bdd
-        $populator->addEntity(Movie::class, 5,[
-            // En troisième argument de la méthode addEntity, il est possible de mettre un tableau avec les columns à formatter manuellement
-            // Pour les formater manuellement il faut en valeur de tableau faire passer une fonction, vu que nos fonctions seront appeller uniquement ici, j'utilise des fonctions anonymes
-            "duration" => function() use ($faker){
-                return $faker->numberBetween(10,240);
-            },
-            "poster" => function() use ($faker) {
-                return "https://picsum.photos/id/".$faker->numberBetween(1,200)."/300/500";
-            },
-            "rating" => function() use ($faker){
-                return $faker->randomFloat(1,1,5);
-            },
-            "type" => function() use ($faker){
-                // ternaire pour choisir entre film et série
-                $type = rand(0,1) ? "Série": "Film";
-                // return $type;
-                return $faker->randomElement(["Série", "Film"]);
-            },
-            "title" => function() use ($faker){
-                return $faker->unique()->movieTitle();
-            }
-        ]);
+        $populator->addEntity(
+            Movie::class,
+            5,
+            [
+                // En troisième argument de la méthode addEntity, il est possible de mettre un tableau avec les columns à formatter manuellement
+                // Pour les formater manuellement il faut en valeur de tableau faire passer une fonction, vu que nos fonctions seront appeller uniquement ici, j'utilise des fonctions anonymes
+                "duration" => function () use ($faker) {
+                    return $faker->numberBetween(10, 240);
+                },
+                "poster" => function () use ($faker) {
+                    return "https://picsum.photos/id/" . $faker->numberBetween(1, 200) . "/300/500";
+                },
+                "rating" => function () use ($faker) {
+                    return $faker->randomFloat(1, 1, 5);
+                },
+                "type" => function () use ($faker) {
+                    // ternaire pour choisir entre film et série
+                    $type = rand(0, 1) ? "Série" : "Film";
+                    // return $type;
+                    return $faker->randomElement(["Série", "Film"]);
+                },
+                "title" => function () use ($faker) {
+                    return $faker->unique()->movieTitle();
+                }
+            ],
+            [
+                // Je fais ma fonction anonyme qui sera appelé par par la méthode AddEntity, elle permet de modifier le movie avant qu'il soit inséré
+                function($movie){
+                    $movie->setSlug($this->slugger->slugify($movie->getTitle()));
+                }
+            ]
+        );
 
 
         // ! PERSON
@@ -200,3 +213,4 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 }
+
