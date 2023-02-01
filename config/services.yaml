@@ -31,3 +31,6 @@ services:
     App\Service\MySlugger:
         arguments:
             $toLower: '%env(bool:TO_LOWER)%'
+    App\Service\OmdbApi:
+        arguments:
+            $apiKey: '%env(string:API_KEY)%'

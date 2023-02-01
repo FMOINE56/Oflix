@@ -4,17 +4,21 @@ namespace App\Controller\Front;
 use App\Entity\Movie;
 use App\Repository\CastingRepository;
 use App\Repository\MovieRepository;
+use App\Service\OmdbApi;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class MovieController extends AbstractController
 {
     /**
      * @Route("/film-serie", name="app_movie_list")
      */
-    public function list(MovieRepository $movieRepository, Request $request): Response
+    public function list(MovieRepository $movieRepository, Request $request, HttpClientInterface $client,OmdbApi $omdbApi): Response
     {
 
         // Astuce pour orderby sans passé par une requête custom, je récupère tous les films trié par ordre alphabétique
@@ -37,12 +41,10 @@ class MovieController extends AbstractController
      * @Route("/film-serie/{id}/{slug}", name="app_movie_show",requirements={"id"="\d+", "slug"="^[a-z0-9-]+$"})
      */
     // J'ai définis un paramètre à ma route qui s'appelle id, il sera disponible dans la variable $id, à condition d'avoir bien remplis la fonction path dans le twig
-    public function show(Movie $movie, CastingRepository $castingRepository, MovieRepository $movieRepository): Response
+    public function show(Movie $movie, CastingRepository $castingRepository): Response
     {
 
         $castingList = $castingRepository->findAllJoinedToPersonByMovie($movie);
-
-  
 
         // Ici le film est récupéré en bdd automatiquement par symfo à l'aide de ce qu'on appelle le paramConverter
         // Le paramConverter va analyser le paramètre d'url, s'il correspond avec un attribut de la classe passé en paramètre de la fonction il va automatiquement faire un findBy(le param, ici l'id) de l'objet en bdd et l'instancier
