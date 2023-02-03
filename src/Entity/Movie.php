@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=MovieRepository::class)
@@ -17,6 +18,7 @@ class Movie
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"movies"})
      */
     private $id;
 
@@ -24,6 +26,7 @@ class Movie
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min = 1, max = 255)
      * @Assert\NotBlank
+     * @Groups({"movies"})
      */
     private $title;
 
@@ -31,12 +34,14 @@ class Movie
      * @ORM\Column(type="integer")
      * @Assert\Range(min = 1, max = 400)
      * @Assert\NotBlank
+     * @Groups({"movies"})
      */
     private $duration;
 
     /**
      * @ORM\Column(type="date")
      * @Assert\NotBlank
+     * @Groups({"movies"})
      */
     private $releaseDate;
 
@@ -44,6 +49,7 @@ class Movie
      * @ORM\Column(type="text")
      * @Assert\Length(min = 50, max = 2000)
      * @Assert\NotBlank
+     * @Groups({"movies"})
      */
     private $synopsis;
 
@@ -51,6 +57,7 @@ class Movie
      * @ORM\Column(type="string", length=500)
      * @Assert\Length(min = 10, max = 500)
      * @Assert\NotBlank
+     * @Groups({"movies"})
      */
     private $summary;
 
@@ -58,41 +65,49 @@ class Movie
      * @ORM\Column(type="string", length=255)
      * @Assert\Url
      * @Assert\Length(min = 10, max = 255)
+     * @Groups({"movies"})
      */
     private $poster;
 
     /**
      * @ORM\Column(type="float", nullable="true")
+     * @Groups({"movies"})
      */
     private $rating;
 
     /**
      * @ORM\OneToMany(targetEntity=Season::class, mappedBy="movie", orphanRemoval=true)
+     * @Groups({"movies"})
      */
     private $seasons;
 
     /**
      * @ORM\ManyToMany(targetEntity=Genre::class, mappedBy="movies")
+     * @Groups({"movies"})
      */
     private $genres;
 
     /**
      * @ORM\OneToMany(targetEntity=Casting::class, mappedBy="movie", orphanRemoval=true)
+     * @Groups({"movies"})
      */
     private $castings;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"movies"})
      */
     private $type;
 
     /**
      * @ORM\OneToMany(targetEntity=Review::class, mappedBy="movie", orphanRemoval=true)
+     * @Groups({"movies"})
      */
     private $reviews;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"movies"})
      */
     private $slug;
 
