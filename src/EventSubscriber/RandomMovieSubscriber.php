@@ -23,6 +23,22 @@ class RandomMovieSubscriber implements EventSubscriberInterface
     public function onKernelController(ControllerEvent $event): void
     {
         
+        // Premiere étape récupérer le controller si y'a bien un controller
+        $controller = $event->getController();
+        // Je vérifie si c'est un tableau (les erreurs ne renvoi pas de tableau) et je récupère l'index 0
+        if(is_array($controller)){
+            $controller = $controller[0];
+        }
+
+        // Je veux récupérer le fqcn
+        $controllerName = get_class($controller);
+
+        // Je veux vérifier si mon controller est bien dans App\Controller\Front
+        if(!str_contains($controllerName,"App\Controller\Front")){
+            return;
+        }
+
+      
         // J'utilise ma requete custom pour récup un film au hasard
         $movie = $this->movieRepository->findRandom();
         // je rajoute le film en variable global a twig

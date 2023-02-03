@@ -6,6 +6,7 @@
 # Pour utiliser un parametre global à l'application, il faut utiliser le service parameterBag
 parameters:
     app.adminMail: '%env(string:ADMIN_MAIL)%'
+    app.onMaintenance: '%env(bool:ON_MAINTENANCE)%'
 
 
 services:
@@ -31,6 +32,23 @@ services:
     App\Service\MySlugger:
         arguments:
             $toLower: '%env(bool:TO_LOWER)%'
+    App\EventSubscriber\MaintenanceSubscriber:
+        arguments:
+            $onMaintenance: '%app.onMaintenance%'
     App\Service\OmdbApi:
         arguments:
             $apiKey: '%env(string:API_KEY)%'
+    App\EventListener\MovieListener:
+        tags:
+            -
+                # these are the options required to define the entity listener
+                name: 'doctrine.orm.entity_listener'
+                event: 'preUpdate'
+                entity: 'App\Entity\Movie'
+                method: "changeSlug"
+            -
+                # these are the options required to define the entity listener
+                name: 'doctrine.orm.entity_listener'
+                event: 'prePersist'
+                entity: 'App\Entity\Movie'
+                method: "changeSlug"

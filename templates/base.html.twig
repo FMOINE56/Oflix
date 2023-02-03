@@ -119,9 +119,12 @@
     {# ce block body, est l'espace laissé pour que les templates viennnent se "caler" dedans #}
     {% block body %}{% endblock %}
 
-    <div class="text-center pt-3 border-top" >
-        <p>Un film au hasard : <a href="{{path("app_movie_show",{id:randomMovie.id, slug:randomMovie.slug})}}">{{randomMovie.title}}</a></p>
-    </div>
+    {% if randomMovie is defined %}
+        <div class="text-center pt-3 border-top" >
+            <p>Un film au hasard : <a href="{{path("app_movie_show",{id:randomMovie.id, slug:randomMovie.slug})}}">{{randomMovie.title}}</a></p>
+        </div>
+    
+    {% endif %}
     <!-- footer -->
     <footer class="container-fluid py-4 border-top text-center">
         <span class="text-muted">O'flix made with &hearts; at O'clock !

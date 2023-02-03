@@ -81,12 +81,6 @@ class AppFixtures extends Fixture
                 "title" => function () use ($faker) {
                     return $faker->unique()->movieTitle();
                 }
-            ],
-            [
-                // Je fais ma fonction anonyme qui sera appelé par par la méthode AddEntity, elle permet de modifier le movie avant qu'il soit inséré
-                function($movie){
-                    $movie->setSlug($this->slugger->slugify($movie->getTitle()));
-                }
             ]
         );
 
@@ -169,6 +163,14 @@ class AppFixtures extends Fixture
         $user->setEmail("user@gmail.com");
         $user->setPassword($this->passwordHasher->hashPassword($user,"user"));
         $manager->persist($user);
+
+        $userManager = new User();
+
+        $userManager->setEmail("manager@gmail.com");
+        $userManager->setPassword($this->passwordHasher->hashPassword($user,"manager"));
+        $userManager->setRoles(["ROLE_MANAGER"]);
+        $manager->persist($userManager);
+
 
 
 

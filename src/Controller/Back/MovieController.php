@@ -38,8 +38,6 @@ class MovieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // J'utilise mon service slugger pour slugifier le titre du film avant de l'ajouter en bdd
-            $movie->setSlug($slugger->slugify($movie->getTitle()));
 
             $movieRepository->add($movie, true);
 
@@ -83,8 +81,7 @@ class MovieController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // J'utilise mon service slugger pour slugifier le titre du film avant de l'ajouter en bdd
-            $movie->setSlug($slugger->slugify($movie->getTitle()));
+     
             
             $movieRepository->add($movie, true);
 
