@@ -123,6 +123,7 @@ class Movie
         $this->genres = new ArrayCollection();
         $this->castings = new ArrayCollection();
         $this->reviews = new ArrayCollection();
+        $this->rating = null;
     }
 
     public function getId(): ?int
@@ -204,33 +205,7 @@ class Movie
 
     public function getRating(): ?float
     {
-
-        // TODO Pour le moment on laisse comme ça mais on verra plus tard comment implémenter cette fonctionnalité de manière plus opti
-        // Je récupère les reviews à l'aide de getReviews
-        $reviews = $this->getReviews();
-
-        // Si j'ai au moins une review
-        if(count($reviews) > 0){
-            
-            // J'initialise une variable allNotes à 0
-            $allNotes = null;
-
-            // Je foreach sur les reviews et j'additione toutes les notes dans allNotes
-            foreach($reviews as $review){
-                $allNotes += $review->getRating();
-            }
-
-            // Je divise le total des notes par le nombre de note
-            $rating = $allNotes / count($reviews);
-
-            // Je retourne ma moyenne arrondi à un chiffre après la virgule
-            return round($rating,1);
-        }else{
-            // Si jamais il n'y a pas de note je renvoi 0
-            return 0;
-        }
-
-        // return $this->rating;
+        return $this->rating;
     }
 
     public function setRating(?float $rating): self

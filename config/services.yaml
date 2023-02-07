@@ -52,3 +52,11 @@ services:
                 event: 'prePersist'
                 entity: 'App\Entity\Movie'
                 method: "changeSlug"
+    App\EventListener\ReviewListener:
+        tags:
+            -
+                # these are the options required to define the entity listener
+                name: 'doctrine.orm.entity_listener'
+                event: 'postPersist'
+                entity: 'App\Entity\Review'
+                method: "CalculMovieRating"

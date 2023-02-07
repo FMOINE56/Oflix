@@ -43,7 +43,7 @@ class ReviewController extends AbstractController
 
             // ... perform some action, such as saving the task to the database
 
-            return $this->redirectToRoute('app_movie_show', ["id" => $movie->getId()]);
+            return $this->redirectToRoute('app_movie_show', ["id" => $movie->getId(), "slug" => $movie->getSlug()]);
         }
 
 

@@ -138,15 +138,15 @@ class AppFixtures extends Fixture
             }
         ]);
 
-        // !review
-        $populator->addEntity(Review::class,40,[
-            "rating" => function() use ($faker){
-                return $faker->numberBetween(1,5);
-            },
-            "reactions" => function() use ($faker){
-                return $faker->randomElements(['Rire', 'Pleurer', 'Réfléchir', 'Dormir', 'Rêver'],3);
-            }
-        ]);
+        // // !review
+        // $populator->addEntity(Review::class,40,[
+        //     "rating" => function() use ($faker){
+        //         return $faker->numberBetween(1,5);
+        //     },
+        //     "reactions" => function() use ($faker){
+        //         return $faker->randomElements(['Rire', 'Pleurer', 'Réfléchir', 'Dormir', 'Rêver'],3);
+        //     }
+        // ]);
 
         // !USER
         $userAdmin = new User();

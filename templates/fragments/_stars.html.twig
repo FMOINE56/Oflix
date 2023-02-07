@@ -1,4 +1,8 @@
-	<div class="d-flex mb-4" style="color: orange;">
+{% if movie.rating is null %}
+<p>Le film n'a pas de notes encore.</p>
+{% else %}
+    
+<div class="d-flex mb-4" style="color: orange;">
     {# TODO Ici gérer l'affichage des étoiles par rapport à la note du film par exemple un film avec 3.5 aura 3 étoiles pleines : bi bi-star-fill, une étoile remplis à moitié :  bi bi-star-half et une étoile vide : bi bi-star#}
         {# ! Version François #}
         {# {% for i in range(0, 4) %}
@@ -100,5 +104,6 @@
                 <i class="bi bi-star"></i>
             {% endfor %}
         {% endif %}
-        
 </div>
+{% endif %}
+
