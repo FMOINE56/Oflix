@@ -36,6 +36,7 @@ class MovieController extends AbstractController
         $form = $this->createForm(MovieType::class, $movie);
         $form->handleRequest($request);
 
+     
         if ($form->isSubmitted() && $form->isValid()) {
 
 
@@ -80,8 +81,8 @@ class MovieController extends AbstractController
       
         $form->handleRequest($request);
 
+      
         if ($form->isSubmitted() && $form->isValid()) {
-     
             
             $movieRepository->add($movie, true);
 

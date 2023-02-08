@@ -69,7 +69,9 @@ class MovieType extends AbstractType
                 "label" => "Genres *",
                 "multiple" => true,
                 "expanded" => true,
-                "help" => "* Vous pouvez choisir plusieurs genres"
+                "help" => "* Vous pouvez choisir plusieurs genres",
+                // Permet d'ignorer le propriétaire de la relation est de bien inséré dans la bdd 
+                "by_reference" => false
             ])
         ;
     }

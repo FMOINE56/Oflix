@@ -82,7 +82,7 @@ class Movie
     private $seasons;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Genre::class, mappedBy="movies")
+     * @ORM\ManyToMany(targetEntity=Genre::class, inversedBy="movies")
      * @Groups({"movies"})
      */
     private $genres;
