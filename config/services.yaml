@@ -60,7 +60,7 @@ services:
                 event: 'postPersist'
                 entity: 'App\Entity\Review'
                 method: "CalculMovieRating"
-    App\Normalizer\EntityNormalizer:
+    App\Normalizer\EntityDenormalizer:
         public: false
         autowire: true
         autoconfigure: true

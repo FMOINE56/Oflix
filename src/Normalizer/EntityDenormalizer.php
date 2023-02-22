@@ -7,7 +7,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 /**
  * Entity denormalizer
  */
-class EntityNormalizer implements DenormalizerInterface
+class EntityDenormalizer implements DenormalizerInterface
 {
     /** @var EntityManagerInterface **/
     protected $em;
